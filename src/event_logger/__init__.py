@@ -1,4 +1,3 @@
-# event_logger.py
 import json
 from pathlib import Path
 from datetime import datetime
@@ -52,6 +51,37 @@ def serialize_event_to_dict(event: Event) -> dict:
             "total_tokens": getattr(um, "total_token_count", None),
         }
 
+    # ---- Extra Metadata (Safety, Grounding, Citations) ----
+    # 1. Safety Ratings (pour comprendre les refus)
+    safety_ratings = []
+    if getattr(event, "safety_ratings", None):
+        for rating in event.safety_ratings:
+            safety_ratings.append({
+                "category": getattr(rating, "category", "UNKNOWN"),
+                "probability": getattr(rating, "probability", "UNKNOWN"),
+                "blocked": getattr(rating, "blocked", False)
+            })
+
+    # 2. Grounding Metadata (Sources Web / Recherche)
+    grounding_info = None
+    if getattr(event, "grounding_metadata", None):
+        # On convertit en dict ou str pour être sûr de le capturer
+        gm = event.grounding_metadata
+        grounding_info = {
+            "web_search_queries": getattr(gm, "web_search_queries", []),
+            "search_entry_point": str(getattr(gm, "search_entry_point", "")),
+            # Les sources exactes peuvent être complexes, on tente une capture générique
+            "retrieval_metadata": str(getattr(gm, "retrieval_metadata", "")) 
+        }
+
+    # 3. Citations
+    citation_metadata = None
+    if getattr(event, "citation_metadata", None):
+        cm = event.citation_metadata
+        citation_metadata = {
+            "citations": [str(c) for c in getattr(cm, "citations", [])]
+        }
+
     # ---- Main event data ----
     serialized = {
         "timestamp": (
@@ -61,10 +91,16 @@ def serialize_event_to_dict(event: Event) -> dict:
         ),
         "event_id": getattr(event, "id", None),
         "invocation_id": getattr(event, "invocation_id", None),
-        "author": getattr(event, "author", None),
+        "author": getattr(event, "author", None), # 'user' ou 'model'
         "is_final": event.is_final_response() if hasattr(event, "is_final_response") else False,
         "content": content_parts,
         "token_usage": token_usage,
+        
+        # Ajout des nouvelles métadonnées
+        "safety_ratings": safety_ratings,
+        "grounding_metadata": grounding_info,
+        "citation_metadata": citation_metadata,
+
         "finish_reason": (
             getattr(event.finish_reason, "name", None)
             if getattr(event, "finish_reason", None)
@@ -84,8 +120,25 @@ class EventLogger:
         self.base_dir = Path(base_dir)
         self.base_dir.mkdir(parents=True, exist_ok=True)
 
-    def _log_file(self, user_id, session_id):
-        return self.base_dir / f"user_{user_id}_session_{session_id}.jsonl"
+    def _get_log_file_path(self, session_id):
+        """
+        Returns the path for the log file.
+        1. Checks if a file for this session already exists (to append to it).
+        2. If not, creates a new filename with the current timestamp.
+        Format: YYYYMMDD_HHMMSS_{session_id}.jsonl
+        """
+        # Look for ANY file ending with _{session_id}.jsonl
+        pattern = f"*_{session_id}.jsonl"
+        existing_files = sorted(list(self.base_dir.glob(pattern)))
+        
+        if existing_files:
+            # Return the most recent existing file to keep appending
+            return existing_files[-1]
+
+        # Generate new filename for the start of the session
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{timestamp}_{session_id}.jsonl"
+        return self.base_dir / filename
 
     def log(self, event: dict, user_id: str, session_id: str):
         """Writes a dictionary event to a JSONL log file."""
@@ -97,31 +150,46 @@ class EventLogger:
         event["user_id"] = user_id
         event["session_id"] = session_id
 
-        path = self._log_file(user_id, session_id)
-        with open(path, "a") as f:
-            f.write(json.dumps(event) + "\n")
+        # Determine file path
+        path = self._get_log_file_path(session_id)
+        
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(event, ensure_ascii=False) + "\n")
 
     def export_session(self, user_id, session_id, output_file):
-        """Combine the full session logs into a single JSON response."""
-        path = self._log_file(user_id, session_id)
+        """
+        Combine session logs into a single JSON response.
+        """
+        # Search pattern updated to match new structure (ignores the timestamp prefix)
+        pattern = f"*_{session_id}.jsonl"
+        found_files = sorted(list(self.base_dir.glob(pattern)))
 
-        if not path.exists():
-            print(f"❌ No logs found: {path}")
+        if not found_files:
+            print(f"❌ No logs found for Session {session_id}")
             return
 
         events = []
-        with open(path, "r") as f:
-            for line in f:
-                events.append(json.loads(line))
+        for log_file in found_files:
+            with open(log_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    if line.strip():
+                        data = json.loads(line)
+                        # Optional safety: verify user_id inside the log if provided
+                        if data.get("user_id") == user_id:
+                            events.append(data)
+
+        # Sort combined events by timestamp
+        events.sort(key=lambda x: x.get("timestamp", ""))
 
         session_data = {
             "user_id": user_id,
             "session_id": session_id,
             "event_count": len(events),
+            "files_merged": [f.name for f in found_files],
             "events": events,
         }
 
-        with open(output_file, "w") as out:
-            json.dump(session_data, out, indent=2)
+        with open(output_file, "w", encoding="utf-8") as out:
+            json.dump(session_data, out, indent=2, ensure_ascii=False)
 
-        print(f"✅ Session exported to {output_file}")
+        print(f"✅ Session exported to {output_file} ({len(found_files)} source files merged)")

@@ -132,4 +132,4 @@ Each line in the `.jsonl` file (and the objects in the exported JSON) contains d
 ## Requirements
 
 * Python 3.8+
-* `google-adk` (or the specific package providing the `Event` object structure you are using)
+* `google-adk`

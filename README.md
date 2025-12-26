@@ -6,7 +6,7 @@ It captures not just the text content, but also critical metadata often missed b
 
 ## Features
 
-- ** Comprehensive serialization**: Converts complex ADK `Event` objects into clean, serializable JSON dictionaries.
+- **Comprehensive serialization**: Converts complex ADK `Event` objects into clean, serializable JSON dictionaries.
 - **Chronological Sorting**: Log files are automatically prefixed with timestamps (`YYYYMMDD_HHMMSS_{session_id}.jsonl`) to ensure easy sorting in file explorers.
 - **Session Management**: Automatically manages file creation. It creates a new file for a new session and appends to existing files if the session continues.
 - **Rich Metadata Support**:

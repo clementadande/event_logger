@@ -30,7 +30,7 @@ pip install .
 Or directly from GitHub:
 
 ```bash
-pip install git+[https://github.com/clementadande/event_logger.git](https://github.com/clementadande/event_logger.git)
+pip install git+https://github.com/clementadande/event_logger.git
 
 ```
 
@@ -41,15 +41,14 @@ If you are using [uv](https://docs.astral.sh/uv/) for dependency management, you
 To add it to your project (`pyproject.toml`):
 
 ```bash
-uv add git+[https://github.com/clementadande/event_logger.git](https://github.com/clementadande/event_logger.git)
+uv add git+https://github.com/clementadande/event_logger.git
 
 ```
 
 Or to install it directly into the current virtual environment:
 
 ```bash
-uv pip install git+[https://github.com/clementadande/event_logger.git](https://github.com/clementadande/event_logger.git)
-
+uv pip install git+https://github.com/clementadande/event_logger.git
 ```
 
 ## Usage

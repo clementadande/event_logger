@@ -18,7 +18,7 @@ It captures not just text content, but also critical metadata: **function calls/
   - 🔄 **State Changes**: Captures agent state deltas and actions
 - **Session export**: Merge fragmented JSONL logs into single JSON reports
 
-### 📊 Data Analytics (InsightProcessor)
+### 📊 Data Analytics (InsightExtractor)
 Answers 20+ analytical questions about your agent logs:
 
 |#|Data Science Insights|Process Mining Insights|
@@ -138,11 +138,11 @@ logger.export_session(
 Transform logs into analytical datasets:
 
 ```python
-from event_logger import EventProcessor, InsightProcessor
+from event_logger import EventProcessor, InsightExtractor
 
 # Initialize processors
 ep = EventProcessor(log_dir=".log")
-ip = InsightProcessor(ep)
+ip = InsightExtractor(ep)
 
 # Load and structure data
 ip.load_and_structure()

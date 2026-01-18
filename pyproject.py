@@ -1,0 +1,149 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "event_logger"
+version = "0.3.0"
+description = "A telemetry and data mining toolkit for Google ADK agents"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Clément Adandé", email = "clement.adande@univ-lr.fr"}
+]
+keywords = ["adk", "telemetry", "process-mining", "data-analysis", "event-logging", "agents"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+# MINIMAL CORE DEPENDENCIES - Only what's absolutely necessary
+dependencies = [
+    "google-adk>=0.1.0",      # Required: ADK event handling
+    "pandas>=2.0.0",          # Required: CSV export, DataFrames
+    "python-dotenv>=1.0.0",   # Required: Environment configuration
+]
+
+[project.optional-dependencies]
+# Analytics features (InsightExtractor)
+analytics = [
+    "numpy>=1.24.0",           # For statistical calculations
+    "scikit-learn>=1.3.0",     # Only for pm10_behavioral_clusters()
+]
+
+# Rich terminal output (nice-to-have, not required)
+rich-output = [
+    "rich>=13.0.0",
+]
+
+# Visualization tools
+viz = [
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.14.0",
+]
+
+# Advanced process mining with pm4py
+process-mining = [
+    "pm4py>=2.7.0",
+]
+
+# Full feature set (analytics + rich output)
+full = [
+    "numpy>=1.24.0",
+    "scikit-learn>=1.3.0",
+    "rich>=13.0.0",
+]
+
+# Development tools
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "isort>=5.12.0",
+]
+
+# Everything
+all = [
+    "numpy>=1.24.0",
+    "scikit-learn>=1.3.0",
+    "rich>=13.0.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.14.0",
+    "pm4py>=2.7.0",
+]
+
+[project.urls]
+Homepage = "https://github.com//clementadande/event_logger"
+Documentation = "https://github.com//clementadande/event_logger#readme"
+Repository = "https://github.com//clementadande/event_logger"
+# Issues = "https://github.com//clementadande/event_logger/issues"
+
+[project.scripts]
+# Optional: CLI tools for your package
+event-logger = "event_logger.cli:main"
+
+[tool.setuptools]
+packages = ["event_logger"]
+
+[tool.setuptools.package-data]
+event_logger = ["py.typed"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--cov=event_logger",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["event_logger"]
+omit = ["*/tests/*", "*/test_*.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

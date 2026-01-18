@@ -76,22 +76,22 @@ Install additional dependencies for specific features:
 
 ```bash
 # Analytics features (statistics, clustering)
-pip install event_logger[analytics]
+pip install "event_logger[analytics]"
 
 # Rich terminal output
-pip install event_logger[rich-output]
+pip install "event_logger[rich-output]"
 
 # Full feature set (analytics + rich output)
-pip install event_logger[full]
+pip install "event_logger[full]"
 
 # Visualization tools
-pip install event_logger[viz]
+pip install "event_logger[viz]"
 
 # Advanced process mining with pm4py
-pip install event_logger[process-mining]
+pip install "event_logger[process-mining]"
 
 # Everything
-pip install event_logger[all]
+pip install "event_logger[all]"
 ```
 
 ## Usage

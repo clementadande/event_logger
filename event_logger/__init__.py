@@ -8,7 +8,7 @@ __version__ = "0.3.0"
 # Import main classes for easy access
 from .logger import EventLogger, serialize_event_to_dict
 from .processor import EventProcessor
-from .insights import InsightProcessor
+from .insights import InsightExtractor
 
 # Lazy import for visualizer (optional dependency)
 def _get_visualizer():

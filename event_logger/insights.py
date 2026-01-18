@@ -8,7 +8,7 @@ from typing import List, Dict, Optional, Tuple
 from itertools import groupby
 import warnings
 warnings.filterwarnings('ignore')
-from processor import EventProcessor
+from .processor import EventProcessor
 
 class InsightExtractor:
     """

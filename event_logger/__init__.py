@@ -3,7 +3,7 @@ Event Logger for Google Gen AI Agents
 A comprehensive toolkit for tracking, analyzing, and mining interaction data.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 # Import main classes for easy access
 from .logger import EventLogger, serialize_event_to_dict

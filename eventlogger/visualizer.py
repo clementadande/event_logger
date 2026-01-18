@@ -18,7 +18,7 @@ try:
     MATPLOTLIB_AVAILABLE = True
 except ImportError:
     MATPLOTLIB_AVAILABLE = False
-    warnings.warn("matplotlib/seaborn not installed. Install with: pip install event_logger[viz]")
+    warnings.warn("matplotlib/seaborn not installed. Install with: pip install eventlogger[viz]")
 
 try:
     import plotly.graph_objects as go
@@ -56,12 +56,12 @@ class EventVisualizer:
     def _check_matplotlib(self):
         """Check if matplotlib is available."""
         if not MATPLOTLIB_AVAILABLE:
-            raise ImportError("matplotlib/seaborn required. Install with: pip install event_logger[viz]")
+            raise ImportError("matplotlib/seaborn required. Install with: pip install eventlogger[viz]")
     
     def _check_plotly(self):
         """Check if plotly is available."""
         if not PLOTLY_AVAILABLE:
-            raise ImportError("plotly required. Install with: pip install event_logger[viz]")
+            raise ImportError("plotly required. Install with: pip install eventlogger[viz]")
     
     # ========== DATA SCIENCE VISUALIZATIONS ==========
     

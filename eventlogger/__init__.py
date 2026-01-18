@@ -20,7 +20,7 @@ def _get_visualizer():
         def _raise_import_error(*args, **kwargs):
             raise ImportError(
                 "EventVisualizer requires visualization dependencies. "
-                "Install with: pip install 'event_logger[viz]' or pip install 'event_logger[full]'"
+                "Install with: pip install 'eventlogger[viz]' or pip install 'eventlogger[full]'"
             ) from e
         return _raise_import_error
 

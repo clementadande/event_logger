@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "event_logger"
+name = "eventlogger"
 version = "0.3.1"
 description = "A telemetry and data mining toolkit for Google ADK agents"
 readme = "README.md"
@@ -88,20 +88,20 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com//clementadande/event_logger"
-Documentation = "https://github.com//clementadande/event_logger#readme"
-Repository = "https://github.com//clementadande/event_logger"
-# Issues = "https://github.com//clementadande/event_logger/issues"
+Homepage = "https://github.com//clementadande/eventlogger"
+Documentation = "https://github.com//clementadande/eventlogger#readme"
+Repository = "https://github.com//clementadande/eventlogger"
+# Issues = "https://github.com//clementadande/eventlogger/issues"
 
 [project.scripts]
 # Optional: CLI tools for your package
-event-logger = "event_logger.cli:main"
+event-logger = "eventlogger.cli:main"
 
 [tool.setuptools]
-packages = ["event_logger"]
+packages = ["eventlogger"]
 
 [tool.setuptools.package-data]
-event_logger = ["py.typed"]
+eventlogger = ["py.typed"]
 
 [tool.black]
 line-length = 100
@@ -120,7 +120,7 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = [
     "--verbose",
-    "--cov=event_logger",
+    "--cov=eventlogger",
     "--cov-report=term-missing",
     "--cov-report=html",
 ]
@@ -133,7 +133,7 @@ disallow_untyped_defs = false
 ignore_missing_imports = true
 
 [tool.coverage.run]
-source = ["event_logger"]
+source = ["eventlogger"]
 omit = ["*/tests/*", "*/test_*.py"]
 
 [tool.coverage.report]

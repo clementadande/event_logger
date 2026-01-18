@@ -53,7 +53,7 @@ pip install .
 Or from GitHub:
 
 ```bash
-pip install git+https://github.com/clementadande/event_logger.git
+pip install git+https://github.com/clementadande/eventlogger.git
 ```
 
 ### Option 2: Using `uv` (Fast Python Installer)
@@ -61,13 +61,13 @@ pip install git+https://github.com/clementadande/event_logger.git
 Add to your project:
 
 ```bash
-uv add git+https://github.com/clementadande/event_logger.git
+uv add git+https://github.com/clementadande/eventlogger.git
 ```
 
 Or install directly:
 
 ```bash
-uv pip install git+https://github.com/clementadande/event_logger.git
+uv pip install git+https://github.com/clementadande/eventlogger.git
 ```
 
 ### Optional Features
@@ -76,22 +76,22 @@ Install additional dependencies for specific features:
 
 ```bash
 # Analytics features (statistics, clustering)
-pip install "event_logger[analytics]"
+pip install "eventlogger[analytics]"
 
 # Rich terminal output
-pip install "event_logger[rich-output]"
+pip install "eventlogger[rich-output]"
 
 # Full feature set (analytics + rich output)
-pip install "event_logger[full]"
+pip install "eventlogger[full]"
 
 # Visualization tools
-pip install "event_logger[viz]"
+pip install "eventlogger[viz]"
 
 # Advanced process mining with pm4py
-pip install "event_logger[process-mining]"
+pip install "eventlogger[process-mining]"
 
 # Everything
-pip install "event_logger[all]"
+pip install "eventlogger[all]"
 ```
 
 ## Usage
@@ -101,7 +101,7 @@ pip install "event_logger[all]"
 Capture agent interactions as they happen:
 
 ```python
-from event_logger import EventLogger, serialize_event_to_dict
+from eventlogger import EventLogger, serialize_event_to_dict
 
 # Initialize logger (defaults to .log/ directory)
 logger = EventLogger(base_dir=".log")
@@ -138,7 +138,7 @@ logger.export_session(
 Transform logs into analytical datasets:
 
 ```python
-from event_logger import EventProcessor, InsightExtractor
+from eventlogger import EventProcessor, InsightExtractor
 
 # Initialize processors
 ep = EventProcessor(log_dir=".log")

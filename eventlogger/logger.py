@@ -417,10 +417,8 @@ def example_with_agent_loop():
     try:
         # Agent loop
         for adk_event in agent.stream():
-            # Serialize and log ADK events
-            from event_logger import serialize_event_to_dict
-            event_dict = serialize_event_to_dict(adk_event)
-            logger.log(event_dict, user_id, session_id)
+            # Log ADK events
+            logger.log(adk_event, user_id, session_id)
             
             # Check for errors
             if adk_event.error_code:

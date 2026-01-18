@@ -166,47 +166,47 @@ class InsightExtractor:
         return dict(freq.most_common())
     
     def ds7_token_distribution(self) -> Dict:
-    """A7: Distribution of token usage by category and total."""
-    # Use 'or 0' to handle both missing keys and None values
-    prompt_tokens = [
-        e.get("token_usage", {}).get("prompt_tokens") or 0 
-        for e in self.events 
-        if e.get("token_usage")
-    ]
-    completion_tokens = [
-        e.get("token_usage", {}).get("completion_tokens") or 0 
-        for e in self.events 
-        if e.get("token_usage")
-    ]
-    thoughts_tokens = [
-        e.get("token_usage", {}).get("thoughts_tokens") or 0 
-        for e in self.events 
-        if e.get("token_usage")
-    ]
-    total_tokens = [
-        e.get("token_usage", {}).get("total_tokens") or 0 
-        for e in self.events 
-        if e.get("token_usage")
-    ]
-    
-    return {
-        "prompt_tokens": {
-            "mean": np.mean(prompt_tokens) if prompt_tokens else 0, 
-            "total": sum(prompt_tokens)
-        },
-        "completion_tokens": {
-            "mean": np.mean(completion_tokens) if completion_tokens else 0, 
-            "total": sum(completion_tokens)
-        },
-        "thoughts_tokens": {
-            "mean": np.mean(thoughts_tokens) if thoughts_tokens else 0, 
-            "total": sum(thoughts_tokens)
-        },
-        "total_tokens": {
-            "mean": np.mean(total_tokens) if total_tokens else 0, 
-            "total": sum(total_tokens)
+        """A7: Distribution of token usage by category and total."""
+        # Use 'or 0' to handle both missing keys and None values
+        prompt_tokens = [
+            e.get("token_usage", {}).get("prompt_tokens") or 0 
+            for e in self.events 
+            if e.get("token_usage")
+        ]
+        completion_tokens = [
+            e.get("token_usage", {}).get("completion_tokens") or 0 
+            for e in self.events 
+            if e.get("token_usage")
+        ]
+        thoughts_tokens = [
+            e.get("token_usage", {}).get("thoughts_tokens") or 0 
+            for e in self.events 
+            if e.get("token_usage")
+        ]
+        total_tokens = [
+            e.get("token_usage", {}).get("total_tokens") or 0 
+            for e in self.events 
+            if e.get("token_usage")
+        ]
+        
+        return {
+            "prompt_tokens": {
+                "mean": np.mean(prompt_tokens) if prompt_tokens else 0, 
+                "total": sum(prompt_tokens)
+            },
+            "completion_tokens": {
+                "mean": np.mean(completion_tokens) if completion_tokens else 0, 
+                "total": sum(completion_tokens)
+            },
+            "thoughts_tokens": {
+                "mean": np.mean(thoughts_tokens) if thoughts_tokens else 0, 
+                "total": sum(thoughts_tokens)
+            },
+            "total_tokens": {
+                "mean": np.mean(total_tokens) if total_tokens else 0, 
+                "total": sum(total_tokens)
+            }
         }
-    }
     
     def ds8_token_consumption(self) -> Dict:
         """A8: Token consumption per session and per trace."""

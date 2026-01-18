@@ -3,7 +3,8 @@ A telemetry and data mining toolkit for Google ADK agents.
 """
 
 from .scribe import serialize_event_to_dict, EventLogger
-from .processor import InsightExtractor, EventProcessor
+from .processor import EventProcessor
+from .insights import InsightExtractor
 
 __all__ = [
     "serialize_event_to_dict",

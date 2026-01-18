@@ -21,7 +21,8 @@ It captures not just text content, but also critical metadata: **function calls/
 ### 📊 Data Analytics (InsightProcessor)
 Answers 20+ analytical questions about your agent logs:
 
-||Data Science Insights|Process Mining Insights|
+|#|Data Science Insights|Process Mining Insights|
+|---|-----------------------|-------------------------|
 |1.|Semantic summary of event logs|Start and end event identification|
 |2.|Session, trace, event, and tool call counts|Process model discovery (session-level)|
 |3.|Distribution statistics (traces/events per session)|Process model discovery (trace-level)|
